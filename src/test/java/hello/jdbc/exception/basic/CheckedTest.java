@@ -14,6 +14,13 @@ public class CheckedTest {
         service.callCatch();
     }
 
+    @Test
+    void checked_throw() {
+        Service service = new Service();
+        assertThatThrownBy(() -> service.callThrow())
+                .isInstanceOf(MyCheckedException.class);
+    }
+
     /**
      * Exception을 상속받은 예외는 체크 예외가 된다.
      */
@@ -39,6 +46,14 @@ public class CheckedTest {
                 //예외 처리 로직
                 log.info("예외 처리, message={}", e.getMessage(), e);
             }
+        }
+
+        /**
+         * 체크 예외를 밖으로 던지는 코드
+         * 체크 예외는 예외를 잡지 않고 밖으로 던지려면 throws 예외를 메서드에 필수로 선언해야한다.
+         */
+        public void callThrow() throws MyCheckedException {
+            repository.call();
         }
     }
 
